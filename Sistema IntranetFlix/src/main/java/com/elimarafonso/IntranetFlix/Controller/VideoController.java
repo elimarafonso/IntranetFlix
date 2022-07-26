@@ -50,9 +50,6 @@ public class VideoController {
 		return new ResponseEntity<List<VideoVO>>(videos, HttpStatus.OK);
 	}
 	
-	
-	
-	
 
 	/* BUSCA FILME POR IDENTIFICAÇÃO */
 	@GetMapping("/{id}")
@@ -69,14 +66,12 @@ public class VideoController {
 	/* CADASTRA FILME NO BANCO DE DADOS */
 	@PostMapping
 	public ResponseEntity<VideoVO> createVideos(@RequestBody VideoVO videoVO) {
-
 		return videoService.salvaFilme(videoVO);
 	}
 
 	/* ALTERA INFORMAÇOES DO FILME */
 	@PatchMapping("/{id}")
-	private ResponseEntity<VideoVO> updateVideo(@PathVariable Long id,
-			@RequestBody @Validated VideoVO videoAtualizado) {
+	private ResponseEntity<VideoVO> updateVideo(@PathVariable Long id,	@RequestBody @Validated VideoVO videoAtualizado) {
 
 		ResponseEntity<VideoVO> dadosAtualizados = videoService.atualizaVideo(id, videoAtualizado);
 

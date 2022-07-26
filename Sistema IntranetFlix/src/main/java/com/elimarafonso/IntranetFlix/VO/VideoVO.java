@@ -74,13 +74,14 @@ public class VideoVO {
 		return videos.stream().map(VideoVO::new).collect(Collectors.toList());
 	}
 
-	public Video atualizaVideo(Long id, VideoRepository videoRepository) {
+	public Video atualizaVideo(Long id, VideoRepository videoRepository, CategoriaRepository categoriaRepository) {
 
 		Video video = videoRepository.getById(id);
 
 		video.setDescricao(this.descricao);
 		video.setTitulo(this.titulo);
 		video.setUrl(this.url);
+		video.setCategoria(categoriaRepository.getById(this.idCategoria));
 		videoRepository.save(video);
 		return video;
 

@@ -40,18 +40,16 @@ public class VideoService {
 	/* SALVA NOVO FILME */
 	public ResponseEntity<VideoVO> salvaFilme(VideoVO videoVO) {
 
-		  
-		 // verifica se a string é maior ou esta vazia
-		  
-		  if (videoVO.verificaTamanhoCampos(videoVO.getTitulo(),  videoVO.getDescricao(), videoVO.getUrl()))  { 
-			  return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); 
-		  } //fim validaçoes
-		  
-		 
-		
+		// verifica se a string é maior ou esta vazia
+
+		if (videoVO.verificaTamanhoCampos(videoVO.getTitulo(), videoVO.getDescricao(), videoVO.getUrl())) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		} // fim validaçoes
+
 		Video video = Video.convertToVideo(videoVO, categoriaRepository);
 		Video videoSalvo = videoRepository.save(video);
-		VideoVO videoConverter = videoVO.converter(videoSalvo,videoSalvo.getCategoria().getId());
+
+		VideoVO videoConverter = videoVO.converter(videoSalvo, videoSalvo.getCategoria().getId());
 
 		return new ResponseEntity<>(videoConverter, HttpStatus.CREATED);
 
@@ -64,7 +62,7 @@ public class VideoService {
 
 		if (video.isPresent()) {
 
-			Video videoSalvo = dadosDoVideo.atualizaVideo(id, videoRepository);
+			Video videoSalvo = dadosDoVideo.atualizaVideo(id, videoRepository,categoriaRepository);
 
 			return ResponseEntity.ok(new VideoVO(videoSalvo));
 		} else {
