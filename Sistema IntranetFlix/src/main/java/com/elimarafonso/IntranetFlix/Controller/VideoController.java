@@ -44,9 +44,7 @@ public class VideoController {
 	/* BUSCA TODOS OS VIDEOS DO BANCO */
 	@GetMapping("/")
 	public ResponseEntity<List<VideoVO>> findVideos(@RequestParam(required = false) String titulo) {
-
 		List<VideoVO> videos = videoService.findByTituloLike(titulo);
-
 		return new ResponseEntity<List<VideoVO>>(videos, HttpStatus.OK);
 	}
 	
@@ -54,7 +52,6 @@ public class VideoController {
 	/* BUSCA FILME POR IDENTIFICAÇÃO */
 	@GetMapping("/{id}")
 	public ResponseEntity<VideoVO> listVideo(@PathVariable Long id) {
-
 		Optional<Video> video = videoService.findById(id);
 		// moverpara CAMADA SERVICE ********
 		if (video.isPresent()) {
@@ -72,18 +69,14 @@ public class VideoController {
 	/* ALTERA INFORMAÇOES DO FILME */
 	@PatchMapping("/{id}")
 	private ResponseEntity<VideoVO> updateVideo(@PathVariable Long id,	@RequestBody @Validated VideoVO videoAtualizado) {
-
 		ResponseEntity<VideoVO> dadosAtualizados = videoService.atualizaVideo(id, videoAtualizado);
-
 		return dadosAtualizados;
 	}
 
 	/* DELTA UM FILME DO BANCO DE DADOS */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<VideoVO> deleteVideo(@PathVariable Long id) {
-
 		ResponseEntity<VideoVO> retornoService = videoService.deletaVideoService(id);
-
 		return retornoService;
 	}
 

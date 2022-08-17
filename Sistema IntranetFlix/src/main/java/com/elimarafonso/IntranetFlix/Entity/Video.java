@@ -90,15 +90,11 @@ public class Video implements Serializable {
 	}
 
 	public static Video convertToVideo(VideoVO videoVO, CategoriaRepository categoriaRepository) {
-
-		
 		if (videoVO.getIdcategoria() == null || videoVO.getIdcategoria() == 0 ){
 			Long n = Long.valueOf(1);
 			videoVO.setIdcategoria(n);
 		}
-
 		Optional<Categoria> categoria = categoriaRepository.findById(videoVO.getIdcategoria());
-
 		return new Video(videoVO, categoria.get());
 	}
 

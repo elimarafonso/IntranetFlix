@@ -10,9 +10,6 @@ import com.elimarafonso.IntranetFlix.Repository.VideoRepository;
 
 public class VideoVO {
 
-
-
-
 	public Long id;
 	public String titulo;
 	public String descricao;
@@ -38,13 +35,12 @@ public class VideoVO {
 		this.idCategoria = videos.getCategoria().getId();
 	}
 
-
 	public VideoVO(Video videos, long idCategoria) {
 		this.id = videos.getId();
 		this.titulo = videos.getTitulo();
 		this.descricao = videos.getDescricao();
 		this.url = videos.getUrl();
-		this.idCategoria =idCategoria;
+		this.idCategoria = idCategoria;
 	}
 
 	public Long getId() {
@@ -64,11 +60,9 @@ public class VideoVO {
 	}
 
 	public VideoVO converter(Video videos, long idCategoria) {
-		
+
 		return new VideoVO(videos, idCategoria);
 	}
-
-
 
 	public static List<VideoVO> converteListaDeVideos(List<Video> videos) {
 		return videos.stream().map(VideoVO::new).collect(Collectors.toList());
@@ -91,8 +85,7 @@ public class VideoVO {
 
 		// rever esta logica
 
-		if ((DescricaoVideo.TITULO.validaCampo(titulo))
-				|| (DescricaoVideo.DESCRICAO.validaCampo(descricao))
+		if ((DescricaoVideo.TITULO.validaCampo(titulo)) || (DescricaoVideo.DESCRICAO.validaCampo(descricao))
 				|| (DescricaoVideo.URL.validaCampo(url))) {
 
 			// retorna true se estivar algo de errado nos campos
@@ -113,7 +106,5 @@ public class VideoVO {
 		return "VideoVO [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", url=" + url
 				+ ", idCategoria=" + idCategoria + "]";
 	}
-
-
 
 }

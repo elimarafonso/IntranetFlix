@@ -24,10 +24,6 @@ public class Categoria {
 	@Column(name = "cor", nullable = false, length = 7)
 	private String cor;
 
-	
-	
-	
-	
 	public Categoria() {
 	}
 

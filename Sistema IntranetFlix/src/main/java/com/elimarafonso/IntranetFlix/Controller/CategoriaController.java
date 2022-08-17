@@ -21,82 +21,52 @@ import com.elimarafonso.IntranetFlix.VO.VideoVO;
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
-	
+
 	public final CategoriaService categoriaService;
-	
+
 	@Autowired
 	public CategoriaController(CategoriaService categoriaService) {
 		this.categoriaService = categoriaService;
 	}
 
-
-
 	/* LISTA TODAS AS CATEGORIAS */
 	@GetMapping("/")
 	public List<CategoriaVO> listaTodasCategorias() {
 		List<CategoriaVO> listaTodas = categoriaService.listaTodas();
-
 		return listaTodas;
 	}
-	
-	
+
 	/* LISTA UMA CATEGORIA POR IDENTIFICAÇÃO */
 	@GetMapping("/{id}/")
-	public ResponseEntity<CategoriaVO> listaCategoria(@PathVariable Long id){
-		
+	public ResponseEntity<CategoriaVO> listaCategoria(@PathVariable Long id) {
 		ResponseEntity<CategoriaVO> categoria = categoriaService.findById(id);
-		
 		return categoria;
 	}
-	
 
 	/* CRIA UMA CATEGORIA E SALVA NO BANCO */
 	@PostMapping
 	public ResponseEntity<CategoriaVO> cadastrarCategoria(@RequestBody CategoriaVO categoriaVO) {
-
 		ResponseEntity<CategoriaVO> novaCategoria = categoriaService.cadastraCategoria(categoriaVO);
-
 		return novaCategoria;
-
 	}
-	
-	
-	/*ATUALIZA UMA CATEGORIA*/
+
+	/* ATUALIZA UMA CATEGORIA */
 	@PatchMapping("/{id}")
-	public ResponseEntity<CategoriaVO> atualizaCategoria(@PathVariable Long id, @RequestBody @Validated CategoriaVO categoriaVO){
-		
-		return categoriaService.alteraCategoria(id,categoriaVO);
-	}	
-	
-	
-	/*DELETA UMA CATEGORIA*/
+	public ResponseEntity<CategoriaVO> atualizaCategoria(@PathVariable Long id,
+			@RequestBody @Validated CategoriaVO categoriaVO) {
+		return categoriaService.alteraCategoria(id, categoriaVO);
+	}
+
+	/* DELETA UMA CATEGORIA */
 	@DeleteMapping("/{id}/")
-	public ResponseEntity<Object> deletaCategoria (@PathVariable Long id){
+	public ResponseEntity<Object> deletaCategoria(@PathVariable Long id) {
 		return categoriaService.deletaCategoria(id);
 	}
- 	
-	
-	
-	/*EXIBE VIDEOS POR CATEGORIAS*/
+
+	/* EXIBE VIDEOS POR CATEGORIAS */
 	@GetMapping("/{id}/videos/")
-	public ResponseEntity<List<VideoVO>>  videosPorCategoria(@PathVariable Long id) {
-		return	categoriaService.buscaVideos(id);
+	public ResponseEntity<List<VideoVO>> videosPorCategoria(@PathVariable Long id) {
+		return categoriaService.buscaVideos(id);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IntranetFlixApplication {
 
 	public static void main(String[] args) {
-		//PAGINA INICIAL, deletar essa linha
 		SpringApplication.run(IntranetFlixApplication.class, args);
 	}
 
