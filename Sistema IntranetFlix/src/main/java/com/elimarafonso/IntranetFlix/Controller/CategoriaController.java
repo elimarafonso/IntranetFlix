@@ -3,6 +3,8 @@ package com.elimarafonso.IntranetFlix.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,8 +33,8 @@ public class CategoriaController {
 
 	/* LISTA TODAS AS CATEGORIAS */
 	@GetMapping("/")
-	public List<CategoriaVO> listaTodasCategorias() {
-		List<CategoriaVO> listaTodas = categoriaService.listaTodas();
+	public Page<CategoriaVO> listaTodasCategorias(Pageable pageable) {
+		Page<CategoriaVO> listaTodas = categoriaService.listaTodas(pageable);
 		return listaTodas;
 	}
 
@@ -65,8 +67,8 @@ public class CategoriaController {
 
 	/* EXIBE VIDEOS POR CATEGORIAS */
 	@GetMapping("/{id}/videos/")
-	public ResponseEntity<List<VideoVO>> videosPorCategoria(@PathVariable Long id) {
-		return categoriaService.buscaVideos(id);
+	public ResponseEntity<Page<VideoVO>> videosPorCategoria(@PathVariable Long id,Pageable pageable) {
+		return categoriaService.buscaVideos(id,pageable);
 	}
 
 }

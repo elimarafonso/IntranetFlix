@@ -1,9 +1,10 @@
 package com.elimarafonso.IntranetFlix.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,10 @@ public class VideoService {
 	}
 
 	/* ENCONTRA TODOS */
-	public List<VideoVO> findAll() {
-		List<Video> videos = videoRepository.findAll();
-		return VideoVO.converteListaDeVideos(videos);
+	public Page<VideoVO> findAll(Pageable pageable) {
+		Page<Video> videos = videoRepository.findAll(pageable);
+		Page<VideoVO> converteListaVideos = VideoVO.converteListaDeVideos(videos);
+		return converteListaVideos;
 	}
 
 	/* ENCONTRA POR ID */
@@ -61,7 +63,7 @@ public class VideoService {
 		}
 	}
 
-	/* DELETA UM FILME DA BASE DE DADOS */
+	/* DELETA UM FILME DA BASE DE DADOS ****#*/
 	public ResponseEntity<VideoVO> deletaVideoService(Long id) {
 		Optional<Video> existeEsteVideo = videoRepository.findById(id);
 		if (existeEsteVideo.isPresent()) {
@@ -71,12 +73,12 @@ public class VideoService {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
-	public List<VideoVO> findByTituloLike(String titulo) {
+	public Page<VideoVO> findByTituloLike(String titulo, Pageable pageable) {
 		if (titulo == null) {
-			List<Video> videos = videoRepository.findAll();
+			Page<Video> videos = videoRepository.findAll(pageable);
 			return VideoVO.converteListaDeVideos(videos);
 		}
-		List<Video> videos = videoRepository.findByTituloContaining(titulo);
+		Page<Video> videos = videoRepository.findByTituloContaining(titulo,pageable);
 		return VideoVO.converteListaDeVideos(videos);
 	}
 

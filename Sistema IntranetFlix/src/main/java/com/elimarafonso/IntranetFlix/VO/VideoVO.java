@@ -1,7 +1,11 @@
 package com.elimarafonso.IntranetFlix.VO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import com.elimarafonso.IntranetFlix.Entity.DescricaoVideo;
 import com.elimarafonso.IntranetFlix.Entity.Video;
@@ -64,8 +68,10 @@ public class VideoVO {
 		return new VideoVO(videos, idCategoria);
 	}
 
-	public static List<VideoVO> converteListaDeVideos(List<Video> videos) {
-		return videos.stream().map(VideoVO::new).collect(Collectors.toList());
+	public static Page<VideoVO> converteListaDeVideos(Page<Video> videos) {
+		List<Video> list = new ArrayList<>(videos.toList());
+		List<VideoVO> collect = list.stream().map(VideoVO::new).collect(Collectors.toList());
+		return new PageImpl<>(collect);
 	}
 
 	public Video atualizaVideo(Long id, VideoRepository videoRepository, CategoriaRepository categoriaRepository) {
@@ -82,23 +88,17 @@ public class VideoVO {
 	}
 
 	public boolean verificaTamanhoCampos(String titulo, String descricao, String url) {
-
 		// rever esta logica
-
 		if ((DescricaoVideo.TITULO.validaCampo(titulo)) || (DescricaoVideo.DESCRICAO.validaCampo(descricao))
 				|| (DescricaoVideo.URL.validaCampo(url))) {
-
 			// retorna true se estivar algo de errado nos campos
 			return true;
 		}
-
 		return false;
 	}
 
 	public void adicionaCategoria(int idcategoria, CategoriaRepository categoriaRepository) {
-
 		categoriaRepository.findById(Long.valueOf(idcategoria));
-
 	}
 
 	@Override

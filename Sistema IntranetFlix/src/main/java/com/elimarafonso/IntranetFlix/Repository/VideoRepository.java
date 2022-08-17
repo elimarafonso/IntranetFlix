@@ -2,6 +2,8 @@ package com.elimarafonso.IntranetFlix.Repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.elimarafonso.IntranetFlix.Entity.Categoria;
@@ -11,8 +13,8 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
 
 	Video findByTitulo(String titulo);
 
-	List<Video> findByCategoria(Categoria categoria);
+	Page<Video> findByCategoria(Categoria categoria, Pageable pageable);
 
-	List<Video> findByTituloContaining(String titulo);
+	Page<Video> findByTituloContaining(String titulo,Pageable pageable);
 
 }

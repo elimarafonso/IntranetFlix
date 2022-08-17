@@ -1,9 +1,10 @@
 package com.elimarafonso.IntranetFlix.Controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +37,16 @@ public class VideoController {
 
 	/* BUSCA TODOS OS VIDEOS DO BANCO */
 	@GetMapping
-	public List<VideoVO> listVideos() {
-		List<VideoVO> videos = videoService.findAll();
+	public Page<VideoVO> listVideos(Pageable pageable) {
+		Page<VideoVO> videos = videoService.findAll(pageable);
 		return videos;
 	}
 	
 	/* BUSCA TODOS OS VIDEOS DO BANCO */
 	@GetMapping("/")
-	public ResponseEntity<List<VideoVO>> findVideos(@RequestParam(required = false) String titulo) {
-		List<VideoVO> videos = videoService.findByTituloLike(titulo);
-		return new ResponseEntity<List<VideoVO>>(videos, HttpStatus.OK);
+	public ResponseEntity<Page<VideoVO>> findVideos(@RequestParam(required = false) String titulo , Pageable pageable) {
+		Page<VideoVO> videos = videoService.findByTituloLike(titulo,pageable);
+		return new ResponseEntity<Page<VideoVO>>(videos, HttpStatus.OK);
 	}
 	
 

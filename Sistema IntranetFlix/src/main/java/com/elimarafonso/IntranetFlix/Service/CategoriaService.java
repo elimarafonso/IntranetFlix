@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,9 +30,14 @@ public class CategoriaService {
 		this.videoRepository = videoRepository;
 	}
 
-	public List<CategoriaVO> listaTodas() {
-		List<Categoria> categorias = categoriaRepository.findAll();
-		return CategoriaVO.converteListaDeCategorias(categorias);
+	public Page<CategoriaVO> listaTodas(Pageable pageable) {
+		Page<Categoria> categorias = categoriaRepository.findAll(pageable);
+		
+		List<CategoriaVO> converteListaDeCategorias = CategoriaVO.converteListaDeCategorias(categorias.getContent());
+		
+		//Convertando uma lista em um Pageable
+		PageImpl<CategoriaVO> pageCategoria = new PageImpl<>(converteListaDeCategorias);
+		return pageCategoria ;
 	}
 
 	public ResponseEntity<CategoriaVO> findById(Long id) {
@@ -74,17 +82,20 @@ public class CategoriaService {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
-	public ResponseEntity<List<VideoVO>> buscaVideos(Long idCategoria) {
+	public ResponseEntity<Page<VideoVO>> buscaVideos(Long idCategoria, Pageable pageable) {
 		// busca os filmes da base de dados com o IdCategoria
 		Optional<Categoria> categoria = categoriaRepository.findById(idCategoria);
-		List<Video> videos = videoRepository.findByCategoria(categoria.get());
+		
+		Page<Video> videos = videoRepository.findByCategoria(categoria.get(),pageable);
 
 		if (videos.isEmpty()) {
 			// Caso a lista estiver vazia retorna notFund
 			return ResponseEntity.notFound().build();
 		}
-		List<VideoVO> videosVO = VideoVO.converteListaDeVideos(videos);
-		return new ResponseEntity<List<VideoVO>>(videosVO, HttpStatus.OK);
+		//Convertando uma lista em um Pageable
+		Page<VideoVO> listaVideosVO = VideoVO.converteListaDeVideos(videos);
+		
+		return new ResponseEntity<Page<VideoVO>>(listaVideosVO, HttpStatus.OK);
 	}
 
 }
